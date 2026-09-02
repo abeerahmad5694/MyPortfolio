@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+/* Class-based dark mode: <html class="dark"> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Semantic theme tokens — light values */
+:root {
+  --canvas: #ffffff;
+  --subtle: #f8fafc;
+  --surface: #ffffff;
+  --line: #e2e8f0;
+  --line-strong: #cbd5e1;
+  --heading: #0f172a;
+  --body: #475569;
+  --muted: #64748b;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-text: #1d4ed8;
+  --accent-text-hover: #1e3a8a;
+  --chip: #f8fafc;
+  --glow: rgba(37, 99, 235, 0.06);
+  color-scheme: light;
+}
+
+/* Semantic theme tokens — dark values */
+.dark {
+  --canvas: #020617;
+  --subtle: #0b1120;
+  --surface: #0f172a;
+  --line: #1e293b;
+  --line-strong: #334155;
+  --heading: #f1f5f9;
+  --body: #94a3b8;
+  --muted: #64748b;
+  --accent: #2563eb;
+  --accent-hover: #3b82f6;
+  --accent-text: #60a5fa;
+  --accent-text-hover: #93c5fd;
+  --chip: #0b1120;
+  --glow: rgba(37, 99, 235, 0.13);
+  color-scheme: dark;
+}
+
+/* Expose tokens as Tailwind utilities (bg-canvas, text-heading, border-line, …) */
+@theme inline {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Segoe UI Mono", Menlo,
+    Consolas, monospace;
+
+  --color-canvas: var(--canvas);
+  --color-subtle: var(--subtle);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-heading: var(--heading);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-text: var(--accent-text);
+  --color-accent-text-hover: var(--accent-text-hover);
+  --color-chip: var(--chip);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-body antialiased;
+    font-optical-sizing: auto;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--accent) 24%, transparent);
+    color: var(--heading);
+  }
+
+  /* Keyboard focus for interactive elements.
+     Form fields handle focus with border/ring styles instead. */
+  :where(a, button, summary, [role="button"]):focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-text;
+  }
+
+  /* Framed image treatment used across the site. */
+  .img-frame {
+    @apply overflow-hidden rounded-xl border border-line bg-surface;
+    box-shadow: 0 16px 40px -22px rgb(15 23 42 / 0.25);
+  }
+
+  .dark .img-frame {
+    box-shadow: 0 20px 50px -24px rgb(0 0 0 / 0.7);
+  }
+
+  .img-frame img {
+    @apply h-full w-full object-cover;
+  }
+
+  /* Standard card surface. */
+  .card {
+    @apply rounded-xl border border-line bg-surface;
+  }
+
+  /* Very subtle scroll-reveal, enabled by the <Reveal> component. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.55s ease,
+      transform 0.55s ease;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}
