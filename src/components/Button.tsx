@@ -6,18 +6,20 @@ type Variant = "primary" | "secondary" | "accent";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex select-none items-center justify-center gap-2 rounded-lg font-medium transition-colors duration-200";
+  "inline-flex select-none items-center justify-center gap-2 rounded-md font-medium tracking-[-0.01em] transition-all duration-150";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-accent text-white hover:bg-accent-hover",
+  primary:
+    "bg-accent text-white shadow-[0_1px_2px_rgba(0,0,0,0.12)] hover:bg-accent-hover",
   secondary:
     "border border-line bg-surface text-heading hover:border-line-strong hover:bg-subtle",
-  accent: "bg-white text-slate-900 hover:bg-slate-100 active:bg-slate-200",
+  accent:
+    "bg-white text-[#090d16] shadow-sm hover:bg-slate-100 active:bg-slate-200",
 };
 
 const sizes: Record<Size, string> = {
   sm: "px-3.5 py-2 text-[13px]",
-  md: "px-4.5 py-2 text-[13px] sm:px-5 sm:py-2.5 sm:text-sm",
+  md: "px-4.5 py-2.5 text-[13px] sm:px-5 sm:py-2.5 sm:text-sm",
   lg: "px-5 py-2.5 text-sm sm:px-6 sm:py-3 sm:text-[15px]",
 };
 

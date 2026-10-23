@@ -16,7 +16,7 @@ export function TextLink({
     <Link
       to={to}
       className={cx(
-        "group inline-flex items-center gap-1.5 text-sm font-medium text-accent-text hover:text-accent-text-hover",
+        "group inline-flex items-center gap-1.5 text-sm font-semibold text-accent-text transition-colors hover:text-accent-text-hover",
         className,
       )}
     >

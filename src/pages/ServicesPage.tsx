@@ -17,38 +17,27 @@ export function ServicesPage() {
     <>
       <PageHeader
         eyebrow="Services"
-        title="What I can build for you"
+        title="What I can build"
+        highlight="for you."
         description="Based on the systems I’ve built and maintained for real clients — from retail ERP platforms to mobile apps published on both app stores."
       />
 
-      {/* Header image band */}
-      <Container className="pt-9 sm:pt-10">
-        <Reveal>
-          <div className="img-frame">
-            <img
-              src="/images/code-dark.jpg"
-              alt="Close-up of source code on a dark screen"
-              loading="lazy"
-              decoding="async"
-              className="aspect-[21/8]"
-            />
-          </div>
-        </Reveal>
-      </Container>
-
       <section>
-        <Container className="py-12 sm:py-14">
-          <div className="grid gap-5 md:grid-cols-2">
+        <Container className="py-14 sm:py-18">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service, index) => (
-              <Reveal key={service.number} delay={(index % 2) * 80} className="h-full">
+              <Reveal key={service.number} delay={(index % 3) * 60} className="h-full">
                 <ServiceCard service={service} />
               </Reveal>
             ))}
           </div>
 
-          <Reveal delay={100}>
-            <div className="card mt-9 p-6 sm:p-8">
-              <h2 className="text-sm font-semibold text-heading">Technologies I work with</h2>
+          <Reveal delay={80}>
+            <div className="card mt-12 p-6 sm:p-8">
+              <p className="eyebrow">Technology stack</p>
+              <h2 className="mt-2.5 text-xl font-bold tracking-[-0.025em] text-heading">
+                Technologies I work with
+              </h2>
               <TechChips
                 items={[
                   "Python",
@@ -65,7 +54,7 @@ export function ServicesPage() {
                 ]}
                 className="mt-4"
               />
-              <p className="mt-4 text-sm leading-relaxed text-body">
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-body">
                 Laravel and CodeIgniter don&rsquo;t appear in my core stack, but
                 I&rsquo;ve used both in client projects and I&rsquo;m comfortable
                 working with existing PHP codebases.

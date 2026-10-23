@@ -15,7 +15,23 @@ const apiPlugin: Plugin = {
 export default defineConfig({
   plugins: [react(), tailwindcss(), apiPlugin],
   server: {
-    host: true,
+    host: "0.0.0.0",
     allowedHosts: true,
+  },
+  build: {
+    target: "es2022",
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules/three")) {
+            return "three";
+          }
+          if (id.includes("node_modules")) {
+            return "vendor";
+          }
+        },
+      },
+    },
   },
 });

@@ -7,60 +7,81 @@ export function ProjectCard({ project }: { project: Project }) {
   const href = `/projects/${project.slug}`;
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition-all duration-200 hover:border-line-strong hover:shadow-[0_16px_40px_-22px_rgb(15_23_42/0.35)] dark:hover:shadow-[0_20px_45px_-20px_rgba(0,0,0,0.8)]">
+    <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-line bg-surface transition-all duration-200 hover:border-line-strong hover:shadow-[0_20px_48px_-24px_rgb(9_13_22/0.22)] dark:hover:shadow-[0_24px_52px_-20px_rgba(0,0,0,0.85)]">
+      {/* Top architectural bar */}
+      <div className="flex items-center justify-between gap-3 border-b border-line bg-subtle/60 px-5 py-3">
+        <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-accent-text">
+          <span className="h-1.5 w-1.5 bg-accent" aria-hidden="true" />
+          {project.category}
+        </span>
+        <span className="rounded border border-line bg-surface px-2 py-0.5 font-mono text-[11px] text-muted">
+          {project.role}
+        </span>
+      </div>
+
       {project.image ? (
         <Link
           to={href}
           tabIndex={-1}
           aria-hidden="true"
-          className="relative block aspect-[16/9] overflow-hidden border-b border-line"
+          className="relative block aspect-[16/9] overflow-hidden border-b border-line bg-subtle"
         >
           <img
             src={project.image}
             alt={project.imageAlt ?? ""}
+            width={1312}
+            height={816}
             loading="lazy"
             decoding="async"
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/55 via-transparent to-transparent" />
+          {project.timeline ? (
+            <span className="absolute bottom-3 left-3.5 rounded bg-slate-950/80 px-2.5 py-1 font-mono text-[10px] font-medium text-white backdrop-blur-sm">
+              {project.timeline}
+            </span>
+          ) : null}
         </Link>
       ) : null}
 
       <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-text">
-          {project.category}
-        </p>
-
-        <h3 className="mt-2.5 text-base font-semibold tracking-tight text-heading">
-          <Link to={href} className="transition-colors hover:text-accent-text">
+        <h3 className="text-lg font-bold tracking-[-0.025em] text-heading sm:text-[19px]">
+          <Link to={href} className="transition-colors group-hover:text-accent-text">
             {project.name}
           </Link>
         </h3>
 
         <p className="mt-2 text-sm leading-relaxed text-body">{project.summary}</p>
 
-        <ul className="mt-3.5 space-y-1.5">
-          {project.highlights.map((highlight) => (
-            <li key={highlight} className="flex gap-2.5 text-sm text-body">
-              <span
-                aria-hidden="true"
-                className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-accent"
-              />
-              {highlight}
-            </li>
-          ))}
-        </ul>
+        {/* Legency-inspired structured key outcomes matrix */}
+        <div className="mt-5 rounded-md border border-line bg-subtle/50 p-3.5">
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+            Key deliverables &amp; outcomes
+          </p>
+          <ul className="mt-2.5 divide-y divide-line/80">
+            {project.highlights.map((highlight, idx) => (
+              <li
+                key={highlight}
+                className="flex items-start gap-2.5 py-1.5 text-[13px] leading-snug text-heading first:pt-0 last:pb-0"
+              >
+                <span className="mt-0.5 font-mono text-[10px] font-semibold text-accent-text">
+                  0{idx + 1}
+                </span>
+                <span>{highlight}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <div className="mt-auto border-t border-line pt-4">
-          <TechChips items={project.tech} className="mt-5" />
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-            <p className="text-xs text-muted">
-              <span>Role — </span>
-              <span className="text-body">{project.role}</span>
-            </p>
+        <div className="mt-auto pt-5">
+          <TechChips items={project.tech} />
+          <div className="mt-4 flex items-center justify-between gap-4 border-t border-line pt-4">
+            <span className="truncate font-mono text-[11px] text-muted">
+              {project.status}
+            </span>
             <Link
               to={href}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-text transition-colors hover:text-accent-text-hover"
+              className="inline-flex shrink-0 items-center gap-1.5 text-[13px] font-semibold text-accent-text transition-colors hover:text-accent-text-hover"
             >
               View case study
               <IconArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />

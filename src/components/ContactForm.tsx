@@ -6,6 +6,7 @@ import { IconCheck } from "./icons";
 import { site } from "../data/site";
 import { countryCodes } from "../data/countries";
 import { getSavedTemplate, renderTemplate } from "../data/admin";
+import { cx } from "../lib/cx";
 
 /**
  * Contact form delivery:
@@ -14,9 +15,6 @@ import { getSavedTemplate, renderTemplate } from "../data/admin";
  *  2. The inquiry is emailed to the site owner via FormSubmit, with the
  *     visitor's address as reply-to, and an automatic confirmation email
  *     (template managed on /admin) sent to the visitor.
- *
- * If the email delivery fails but the save succeeded, the visitor sees a
- * maintenance toast — the submission still counts.
  */
 const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/abeermkawan@gmail.com";
 
@@ -29,9 +27,9 @@ const projectTypes = [
   "Something else",
 ];
 
-const labelClass = "mb-1.5 block text-sm font-medium text-heading/80";
+const labelClass = "mb-1.5 block text-xs font-semibold uppercase tracking-[0.08em] text-heading/85";
 const fieldClass =
-  "w-full rounded-lg border border-line bg-surface px-3.5 py-2.5 text-[15px] text-heading placeholder:text-muted transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20";
+  "w-full rounded-md border border-line bg-surface px-3.5 py-2.5 text-[15px] text-heading placeholder:text-muted transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20";
 
 type Status = "idle" | "sending" | "success" | "maintenance" | "error";
 
@@ -40,8 +38,8 @@ export function ContactForm() {
   const [sentTo, setSentTo] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
   const [emailAttempted, setEmailAttempted] = useState(false);
-  // Admin-controlled switch: whether the form attempts email delivery at all.
   const [emailEnabled, setEmailEnabled] = useState(true);
+  const [selectedType, setSelectedType] = useState<string>("");
 
   useEffect(() => {
     let cancelled = false;
@@ -71,11 +69,10 @@ export function ContactForm() {
     const email = String(data.get("email") ?? "").trim();
     const countryCode = String(data.get("countryCode") ?? "").trim();
     const whatsappNumber = String(data.get("whatsapp") ?? "").trim();
-    const projectType = String(data.get("projectType") ?? "").trim();
+    const projectType = String(data.get("projectType") ?? selectedType ?? "").trim();
     const message = String(data.get("message") ?? "").trim();
     const honeypot = String(data.get("_honey") ?? "").trim();
 
-    // Honeypot filled — almost certainly a bot; pretend everything is fine.
     if (honeypot) {
       form.reset();
       return;
@@ -84,7 +81,6 @@ export function ContactForm() {
     setStatus("sending");
     setToastVisible(false);
 
-    // Digits-only international WhatsApp number, e.g. +923001234567
     const whatsapp = whatsappNumber
       ? `${countryCode}${whatsappNumber.replace(/[^\d]/g, "")}`
       : "";
@@ -104,12 +100,12 @@ export function ContactForm() {
         savedId = typeof result?.id === "number" ? result.id : null;
       }
     } catch {
-      // Database unreachable (e.g. static hosting) — email path still runs.
+      // Database unreachable — email path still runs.
     }
 
     // 2) Attempt the email delivery — only when the admin toggle is on.
     let emailSent = false;
-    let attempted = false; // local (state updates are async within this handler)
+    let attempted = false;
     if (emailEnabled) {
       attempted = true;
       setEmailAttempted(true);
@@ -169,19 +165,18 @@ export function ContactForm() {
       }
     }
 
-    // Saved successfully — either the email went through, or email delivery
-    // is switched off by design. The visitor's submission always counts.
     if (savedId !== null && (emailSent || !attempted)) {
       setSentTo(email);
       form.reset();
+      setSelectedType("");
       setStatus("success");
       return;
     }
 
     if (savedId !== null) {
-      // Email delivery failed but the inquiry is safely stored.
       setSentTo(email);
       form.reset();
+      setSelectedType("");
       setStatus("maintenance");
       setToastVisible(true);
       return;
@@ -192,8 +187,16 @@ export function ContactForm() {
 
   return (
     <div>
+      <div className="mb-6 border-b border-line pb-4">
+        <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-text">
+          Project Inquiry
+        </p>
+        <h2 className="mt-1 text-lg font-bold tracking-[-0.02em] text-heading">
+          Tell me a little about your plans
+        </h2>
+      </div>
+
       <form onSubmit={handleSubmit} noValidate={false}>
-        {/* Honeypot — hidden from humans, catches spam bots */}
         <input
           type="text"
           name="_honey"
@@ -278,37 +281,33 @@ export function ContactForm() {
           </div>
         </div>
 
+        {/* Legency-inspired interactive service/project type pills + hidden/select sync */}
         <div className="mt-5">
           <label htmlFor="projectType" className={labelClass}>
-            Project type
+            What kind of system do you need?{" "}
+            <span className="font-normal text-muted">(optional)</span>
           </label>
-          <div className="relative">
-            <select
-              id="projectType"
-              name="projectType"
-              defaultValue=""
-              className={`${fieldClass} appearance-none pr-10`}
-            >
-              <option value="">Select a project type (optional)</option>
-              {projectTypes.map((type) => (
-                <option key={type} value={type}>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {projectTypes.map((type) => {
+              const active = selectedType === type;
+              return (
+                <button
+                  key={type}
+                  type="button"
+                  onClick={() => setSelectedType(active ? "" : type)}
+                  className={cx(
+                    "rounded-md border px-3 py-1.5 text-xs font-semibold transition-colors",
+                    active
+                      ? "border-accent bg-accent text-white"
+                      : "border-line bg-subtle text-body hover:border-line-strong hover:text-heading",
+                  )}
+                >
                   {type}
-                </option>
-              ))}
-            </select>
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.75}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
-            >
-              <path d="m6 9 6 6 6-6" />
-            </svg>
+                </button>
+              );
+            })}
           </div>
+          <input type="hidden" id="projectType" name="projectType" value={selectedType} />
         </div>
 
         <div className="mt-5">
@@ -319,8 +318,8 @@ export function ContactForm() {
             id="message"
             name="message"
             required
-            rows={6}
-            placeholder="What are you building, and what you need help with?"
+            rows={5}
+            placeholder="What are you building, and what do you need help with?"
             className={`${fieldClass} resize-y`}
           />
         </div>
@@ -345,10 +344,10 @@ export function ContactForm() {
       {status === "success" ? (
         <div
           role="status"
-          className="mt-6 rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-3.5"
+          className="mt-6 rounded-md border border-emerald-500/30 bg-emerald-500/10 px-4 py-3.5"
         >
           <p className="flex items-start gap-2.5 text-sm leading-relaxed text-body">
-            <IconCheck className="mt-[3px] h-4 w-4 shrink-0 text-green-600 dark:text-green-400" />
+            <IconCheck className="mt-[3px] h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
             <span>
               {emailAttempted ? (
                 <>
@@ -366,7 +365,7 @@ export function ContactForm() {
               <button
                 type="button"
                 onClick={() => setStatus("idle")}
-                className="font-medium text-accent-text hover:text-accent-text-hover"
+                className="font-semibold text-accent-text hover:text-accent-text-hover"
               >
                 Send another message
               </button>
@@ -379,7 +378,7 @@ export function ContactForm() {
       {status === "maintenance" ? (
         <div
           role="status"
-          className="mt-6 rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-3.5"
+          className="mt-6 rounded-md border border-amber-500/40 bg-amber-500/10 px-4 py-3.5"
         >
           <p className="text-sm leading-relaxed text-body">
             <span className="font-medium text-heading">
@@ -392,7 +391,7 @@ export function ContactForm() {
             <button
               type="button"
               onClick={() => setStatus("idle")}
-              className="font-medium text-accent-text hover:text-accent-text-hover"
+              className="font-semibold text-accent-text hover:text-accent-text-hover"
             >
               Send another message
             </button>
@@ -404,13 +403,13 @@ export function ContactForm() {
       {status === "error" ? (
         <div
           role="alert"
-          className="mt-6 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3.5"
+          className="mt-6 rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3.5"
         >
           <p className="text-sm leading-relaxed text-body">
             The message couldn&rsquo;t be sent. Please email me directly at{" "}
             <a
               href={`mailto:${site.email}`}
-              className="font-medium text-accent-text hover:text-accent-text-hover"
+              className="font-semibold text-accent-text hover:text-accent-text-hover"
             >
               {site.email}
             </a>{" "}
@@ -419,7 +418,6 @@ export function ContactForm() {
         </div>
       ) : null}
 
-      {/* Maintenance toast */}
       <Toast
         show={toastVisible}
         onClose={() => setToastVisible(false)}

@@ -18,60 +18,46 @@ export function ExperiencePage() {
     <>
       <PageHeader
         eyebrow="Experience"
-        title="Where I’ve worked"
+        title="Where I’ve"
+        highlight="worked."
         description="Professional experience building and maintaining production systems for real businesses."
       />
 
-      {/* Experience + side image */}
       <section>
-        <Container className="py-12 sm:py-14">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:gap-14">
-            <Reveal>
+        <Container className="py-14 sm:py-16">
+          <Reveal>
+            <div className="card p-6 sm:p-8">
               <ul>
                 {experience.map((item) => (
                   <ExperienceItem key={item.company} item={item} />
                 ))}
               </ul>
-            </Reveal>
-            <Reveal delay={120}>
-              <div className="lg:sticky lg:top-24">
-                <div className="img-frame">
-                  <img
-                    src="/images/about-workspace.jpg"
-                    alt="A developer working across multiple monitors filled with code in a dark room"
-                    loading="lazy"
-                    decoding="async"
-                    className="aspect-[16/10]"
-                  />
-                </div>
-                <p className="mt-4 max-w-sm text-[13px] leading-relaxed text-muted">
-                  Two years of building and running production systems for retail
-                  clients — ERP, POS, and everything around them.
-                </p>
-              </div>
-            </Reveal>
-          </div>
+            </div>
+          </Reveal>
         </Container>
       </section>
 
       {/* Skills */}
       <section className="border-t border-line bg-subtle">
-        <Container className="py-14 sm:py-16">
+        <Container className="py-16 sm:py-20">
           <Reveal>
-            <p className="eyebrow">Skills & tools</p>
-            <h2 className="mt-2.5 max-w-2xl text-[1.375rem] font-semibold tracking-tight text-heading sm:text-2xl">
-              What I work with day to day
+            <p className="eyebrow">Skills &amp; tools</p>
+            <h2 className="mt-3 max-w-2xl text-2xl font-bold tracking-[-0.03em] text-heading sm:text-[1.875rem]">
+              What I work with{" "}
+              <span className="text-accent-text">day to day.</span>
             </h2>
           </Reveal>
-          <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {skillGroups.map((group, index) => (
-              <Reveal key={group.title} delay={(index % 3) * 70} className="h-full">
+              <Reveal key={group.title} delay={(index % 3) * 60} className="h-full">
                 <SkillGroupCard group={group} />
               </Reveal>
             ))}
           </div>
-          <Reveal delay={100}>
-            <p className="mt-6 max-w-2xl text-[13px] leading-relaxed text-muted">{skillsNote}</p>
+          <Reveal delay={80}>
+            <p className="mt-6 max-w-2xl text-[13px] leading-relaxed text-muted">
+              {skillsNote}
+            </p>
           </Reveal>
         </Container>
       </section>
