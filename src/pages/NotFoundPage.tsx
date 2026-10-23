@@ -9,11 +9,7 @@ export function NotFoundPage() {
   );
 
   return (
-    <section className="relative overflow-hidden">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_40%_at_50%_0%,var(--glow),transparent_70%)]"
-      />
+    <section className="relative overflow-hidden bg-subtle">
       <Container className="flex flex-col items-center pt-32 pb-24 text-center sm:pt-40 sm:pb-28">
         <p className="font-mono text-sm font-medium tracking-[0.14em] text-accent-text">404</p>
         <h1 className="mt-3.5 text-2xl font-semibold tracking-tight text-heading sm:text-3xl">

@@ -8,21 +8,24 @@ export function ProjectCard({ project }: { project: Project }) {
 
   return (
     <article
-      className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white p-7 transition-transform duration-200 hover:-translate-y-0.5 sm:p-9"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-transparent p-6 transition-transform duration-200 hover:-translate-y-0.5 sm:p-9 dark:border-line"
       style={{
-        backgroundColor: "#ffffff",
-        boxShadow: "0 1px 3px rgba(9, 13, 22, 0.05)",
+        backgroundColor: "var(--surface)",
+        boxShadow: "var(--card-shadow)",
       }}
     >
       {/* Top oval pills matching image-3.png */}
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span
           className="inline-flex items-center rounded-full px-4 py-1 text-[12.5px] font-medium"
-          style={{ border: "1px solid #a1a1aa", color: "#090d16" }}
+          style={{
+            border: "1px solid var(--line-strong)",
+            color: "var(--heading)",
+          }}
         >
           {project.category}
         </span>
-        <span className="font-mono text-xs text-zinc-500">{project.role}</span>
+        <span className="font-mono text-xs text-muted">{project.role}</span>
       </div>
 
       {project.image ? (
@@ -30,7 +33,7 @@ export function ProjectCard({ project }: { project: Project }) {
           to={href}
           tabIndex={-1}
           aria-hidden="true"
-          className="relative mt-6 block aspect-[16/9] overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100"
+          className="relative mt-6 block aspect-[16/9] overflow-hidden rounded-xl border border-line bg-subtle"
         >
           <img
             src={project.image}
@@ -45,31 +48,31 @@ export function ProjectCard({ project }: { project: Project }) {
       ) : null}
 
       <div className="mt-6 flex flex-1 flex-col">
-        <h3 className="text-[24px] font-bold leading-[1.14] tracking-[-0.03em] text-[#090d16] sm:text-[28px]">
+        <h3 className="text-[23px] font-bold leading-[1.14] tracking-[-0.03em] text-heading sm:text-[28px]">
           <Link
             to={href}
-            className="transition-colors group-hover:text-[#001aff]"
+            className="transition-colors group-hover:text-accent-text"
           >
             {project.name}
           </Link>
         </h3>
 
-        <p className="mt-3 text-[15px] leading-relaxed text-zinc-600">
+        <p className="mt-3 text-[15px] leading-relaxed text-body">
           {project.summary}
         </p>
 
         {/* Checklist in image-3.png format */}
         <div className="mt-7">
-          <p className="text-[13.5px] font-bold text-[#090d16]">
+          <p className="text-[13.5px] font-bold text-heading">
             What&rsquo;s included:
           </p>
           <ul className="mt-3.5 space-y-2.5">
             {project.highlights.map((highlight) => (
               <li
                 key={highlight}
-                className="flex items-start gap-3 text-[14px] leading-snug text-zinc-800"
+                className="flex items-start gap-3 text-[14px] leading-snug text-heading"
               >
-                <span className="mt-0.5 font-mono text-xs font-bold text-[#001aff]">
+                <span className="mt-0.5 font-mono text-xs font-bold text-accent-text">
                   {"{}"}
                 </span>
                 <span>{highlight}</span>
@@ -80,13 +83,13 @@ export function ProjectCard({ project }: { project: Project }) {
 
         <div className="mt-auto pt-7">
           <TechChips items={project.tech} />
-          <div className="mt-5 flex items-center justify-between gap-4 border-t border-zinc-200 pt-5">
-            <span className="truncate font-mono text-xs text-zinc-500">
+          <div className="mt-5 flex items-center justify-between gap-4 border-t border-line pt-5">
+            <span className="truncate font-mono text-xs text-muted">
               {project.status}
             </span>
             <Link
               to={href}
-              className="inline-flex shrink-0 items-center gap-1.5 text-[14px] font-semibold text-[#001aff] transition-opacity hover:opacity-75"
+              className="inline-flex shrink-0 items-center gap-1.5 text-[14px] font-semibold text-accent-text transition-opacity hover:opacity-75"
             >
               View case study
               <IconArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />

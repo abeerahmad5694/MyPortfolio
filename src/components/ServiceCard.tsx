@@ -7,29 +7,27 @@ export function ServiceCard({ service }: { service: Service }) {
 
   return (
     <article
-      className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl p-8 sm:p-10"
+      className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-transparent p-7 sm:p-10 dark:border-line"
       style={
         isDark
           ? {
-              backgroundColor: "#040614",
+              backgroundColor: "var(--dark-card)",
               color: "#ffffff",
-              boxShadow: "0 20px 44px -20px rgba(4, 6, 20, 0.45)",
             }
           : {
-              backgroundColor: "#ffffff",
-              color: "#090d16",
-              boxShadow: "0 1px 3px rgba(9, 13, 22, 0.05)",
+              backgroundColor: "var(--surface)",
+              color: "var(--heading)",
+              boxShadow: "var(--card-shadow)",
             }
       }
     >
       {isDark ? (
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-45"
+          className="pointer-events-none absolute inset-0 opacity-20"
           style={{
-            backgroundImage:
-              "radial-gradient(circle at 82% 28%, rgba(0, 26, 255, 0.55) 0%, rgba(0, 26, 255, 0.18) 38%, transparent 70%), radial-gradient(#001aff 1.8px, transparent 1.8px)",
-            backgroundSize: "100% 100%, 10px 10px",
+            backgroundImage: "radial-gradient(#001aff 1.8px, transparent 1.8px)",
+            backgroundSize: "10px 10px",
           }}
         />
       ) : null}
@@ -40,21 +38,24 @@ export function ServiceCard({ service }: { service: Service }) {
           style={
             isDark
               ? { backgroundColor: "#001aff", color: "#ffffff" }
-              : { border: "1px solid #a1a1aa", color: "#090d16" }
+              : {
+                  border: "1px solid var(--line-strong)",
+                  color: "var(--heading)",
+                }
           }
         >
           {service.number} · Service
         </span>
 
         <h3
-          className="mt-7 text-[26px] font-bold leading-[1.12] tracking-[-0.035em] sm:text-[29px]"
-          style={{ color: isDark ? "#ffffff" : "#090d16" }}
+          className="mt-7 text-[25px] font-bold leading-[1.12] tracking-[-0.035em] sm:text-[29px]"
+          style={{ color: isDark ? "#ffffff" : "var(--heading)" }}
         >
           {service.title}
         </h3>
         <p
           className="mt-3.5 text-[15px] leading-relaxed"
-          style={{ color: isDark ? "#d4d4d8" : "#52525b" }}
+          style={{ color: isDark ? "#d4d4d8" : "var(--body)" }}
         >
           {service.description}
         </p>
@@ -62,7 +63,7 @@ export function ServiceCard({ service }: { service: Service }) {
         <div className="mt-8">
           <p
             className="text-[13.5px] font-bold"
-            style={{ color: isDark ? "#ffffff" : "#090d16" }}
+            style={{ color: isDark ? "#ffffff" : "var(--heading)" }}
           >
             What&rsquo;s included:
           </p>
@@ -71,11 +72,11 @@ export function ServiceCard({ service }: { service: Service }) {
               <li
                 key={point}
                 className="flex items-start gap-3 text-[14.5px] leading-snug"
-                style={{ color: isDark ? "#f4f4f5" : "#18181b" }}
+                style={{ color: isDark ? "#e4e4e7" : "var(--heading)" }}
               >
                 <span
                   className="mt-0.5 inline-flex h-4.5 w-4.5 shrink-0 items-center justify-center font-mono text-xs font-bold"
-                  style={{ color: isDark ? "#4d6bff" : "#001aff" }}
+                  style={{ color: isDark ? "#5c78ff" : "var(--accent-text)" }}
                 >
                   {"{}"}
                 </span>
@@ -89,13 +90,13 @@ export function ServiceCard({ service }: { service: Service }) {
       <div
         className="relative z-10 mt-9 border-t pt-5"
         style={{
-          borderColor: isDark ? "rgba(255,255,255,0.12)" : "#e4e4e7",
+          borderColor: isDark ? "rgba(255,255,255,0.12)" : "var(--line)",
         }}
       >
         <Link
           to="/contact"
           className="inline-flex items-center gap-2 text-[14px] font-semibold transition-opacity hover:opacity-75"
-          style={{ color: isDark ? "#ffffff" : "#001aff" }}
+          style={{ color: isDark ? "#ffffff" : "var(--accent-text)" }}
         >
           Discuss your requirements
           <IconArrowRight className="h-4 w-4" />

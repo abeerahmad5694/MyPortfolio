@@ -15,6 +15,7 @@ const BAYER_8X8 = [
 /**
  * Legency Media's signature Bayer-dithered electric-blue (#001AFF) ringed planet graphic.
  * Full-bleed right-side hero canvas with a bottom-left to top-right (/) planetary ring.
+ * Adapts cleanly between Light Mode (default) and flat matte Dark Mode.
  */
 export function InteractiveGlobe({ className = "" }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -66,6 +67,7 @@ export function InteractiveGlobe({ className = "" }: { className?: string }) {
 
       ctx.clearRect(0, 0, width, height);
 
+      const isDark = document.documentElement.classList.contains("dark");
       const isMobile = width < 640;
 
       // Crisp square pixel grid matching image-2.png
@@ -122,21 +124,16 @@ export function InteractiveGlobe({ className = "" }: { className?: string }) {
           let inRingGap = false;
 
           if (!isBackRing && ringDist > 0.88 && ringDist < 1.92) {
-            // Subtle light separation band just inside the front ring across the sphere
             if (insideSphere && ry > 0 && ringDist > 0.96 && ringDist < 1.14) {
               inRingGap = true;
             }
 
-            // Sharp electric-blue lower/outer spine of the ring (matching image-2.png)
             const mainBand =
               Math.exp(-Math.pow((ringDist - 1.32) / 0.12, 2)) * 0.95;
-            // Secondary softer band
             const outerBand =
               Math.exp(-Math.pow((ringDist - 1.56) / 0.22, 2)) * 0.45;
-            // Subtle orbital shimmer
             const shimmer =
               0.9 + 0.1 * Math.sin(rx * 4.5 - phase * 1.2 + ry * 6.0);
-            // Smooth taper at the far left tip
             const tipFade = Math.max(0, 1 - Math.pow(Math.abs(rx) / 1.88, 3.2));
 
             ringIntensity = (mainBand + outerBand) * shimmer * tipFade;
@@ -147,17 +144,14 @@ export function InteractiveGlobe({ className = "" }: { className?: string }) {
           if (insideSphere) {
             const dz = Math.sqrt(Math.max(0, 1.0 - r2));
 
-            // Strong left-crescent shadow (dx < 0) matching image-2.png
             const leftCrescent =
               Math.pow(Math.max(0, -dx * 0.82 + 0.22 - dy * 0.06), 1.5) * 1.35;
 
-            // Crisp electric-blue rim along the left silhouette of the sphere
             const leftRim =
               dx < -0.15
                 ? Math.pow(1.0 - dz, 1.55) * Math.max(0, -dx) * 1.05
                 : 0;
 
-            // Subtle rotating surface patches
             const lon = Math.atan2(dx, dz) + phase * 0.3;
             const lat = Math.asin(Math.max(-1, Math.min(1, dy)));
             const patch =
@@ -184,12 +178,16 @@ export function InteractiveGlobe({ className = "" }: { className?: string }) {
 
           // Ordered Bayer dithering into crisp axis-aligned square pixels
           if (total > 0.66 && total - threshold * 0.52 > 0.4) {
-            // Vivid Electric Blue (#001AFF) square pixel
-            ctx.fillStyle = "#001aff";
+            ctx.fillStyle = isDark ? "#2845ff" : "#001aff";
             ctx.fillRect(gx * step, gy * step, step - 1.2, step - 1.2);
           } else if (total > 0.35 && total - threshold * 0.56 > 0.15) {
-            // Medium Royal/Cobalt Blue square pixel
-            ctx.fillStyle = total > 0.5 ? "#1f38ff" : "#4f66ff";
+            ctx.fillStyle = isDark
+              ? total > 0.5
+                ? "#3b56ff"
+                : "#4f68ff"
+              : total > 0.5
+                ? "#1f38ff"
+                : "#4f66ff";
             ctx.fillRect(
               gx * step + 0.5,
               gy * step + 0.5,
@@ -197,8 +195,7 @@ export function InteractiveGlobe({ className = "" }: { className?: string }) {
               step - 1.8,
             );
           } else if (total > 0.16 && total > threshold * 0.72) {
-            // Soft Periwinkle halftone pixel
-            ctx.fillStyle = "#8f9eff";
+            ctx.fillStyle = isDark ? "#33427a" : "#8f9eff";
             ctx.fillRect(gx * step + 1, gy * step + 1, step - 2.6, step - 2.6);
           } else if (
             insideSphere ||
@@ -206,10 +203,15 @@ export function InteractiveGlobe({ className = "" }: { className?: string }) {
               ringDist > 0.9 &&
               ringDist < 1.85 &&
               (gx + gy) % 2 === 0) ||
-            (x > width * 0.42 && (gx % 2 === 0 && gy % 2 === 0))
+            (x > width * 0.42 && gx % 2 === 0 && gy % 2 === 0)
           ) {
-            // Ambient background dot-matrix across the sunlit right side of the globe & hero
-            ctx.fillStyle = insideSphere ? "#bfc7f7" : "#d8dcf5";
+            ctx.fillStyle = isDark
+              ? insideSphere
+                ? "#222940"
+                : "#191d2b"
+              : insideSphere
+                ? "#bfc7f7"
+                : "#d8dcf5";
             ctx.fillRect(gx * step + 1.5, gy * step + 1.5, 2, 2);
           }
         }

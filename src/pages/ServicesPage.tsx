@@ -17,8 +17,8 @@ export function ServicesPage() {
   return (
     <>
       <section
-        className="pt-24 pb-16 sm:pt-36 sm:pb-28"
-        style={{ backgroundColor: "#f3f4f6", color: "#090d16" }}
+        className="bg-subtle pt-24 pb-16 sm:pt-36 sm:pb-28"
+        style={{ backgroundColor: "var(--subtle)", color: "var(--heading)" }}
       >
         <Container>
           {/* Centered Section Header matching image-3.png */}
@@ -26,25 +26,31 @@ export function ServicesPage() {
             <div className="mx-auto max-w-[780px] text-center">
               <p
                 className="text-[13px] font-medium"
-                style={{ color: "#001aff" }}
+                style={{ color: "var(--accent-text)" }}
               >
                 Services &amp; Retainers
               </p>
               <h1
                 className="mt-3 text-[clamp(2.35rem,4.6vw,4.1rem)] font-bold leading-[1.05] tracking-[-0.04em]"
-                style={{ color: "#090d16" }}
+                style={{ color: "var(--heading)" }}
               >
                 Full-stack support for
                 <br />
                 your business operations
               </h1>
-              <p className="mx-auto mt-5 max-w-[680px] text-[15.5px] leading-[1.6] text-zinc-600 sm:text-[16.5px]">
+              <p
+                className="mx-auto mt-5 max-w-[680px] text-[15.5px] leading-[1.6] sm:text-[16.5px]"
+                style={{ color: "var(--body)" }}
+              >
                 Choose ongoing engineering support around the systems your
                 business runs on. I also take on individual projects, including
                 custom Django ERP &amp; POS builds, Flutter mobile apps, and
                 Stripe integrations.
               </p>
-              <p className="mx-auto mt-3 max-w-[680px] text-[15.5px] leading-[1.6] text-zinc-600 sm:text-[16.5px]">
+              <p
+                className="mx-auto mt-3 max-w-[680px] text-[15.5px] leading-[1.6] sm:text-[16.5px]"
+                style={{ color: "var(--body)" }}
+              >
                 Explore custom retail ERP software, real-time point-of-sale
                 syncing, Android &amp; iOS app store releases, and REST API
                 development in {site.location}.
@@ -66,14 +72,14 @@ export function ServicesPage() {
 
           <Reveal delay={80}>
             <div
-              className="mt-12 rounded-2xl bg-white p-8 sm:p-10"
+              className="mt-12 rounded-2xl border border-transparent bg-surface p-7 sm:p-10 dark:border-line"
               style={{
-                backgroundColor: "#ffffff",
-                boxShadow: "0 1px 3px rgba(9, 13, 22, 0.04)",
+                backgroundColor: "var(--surface)",
+                boxShadow: "var(--card-shadow)",
               }}
             >
               <PartnerBadge label="Technology Stack" tag="Production" />
-              <h2 className="mt-5 text-2xl font-bold tracking-[-0.03em] text-[#090d16]">
+              <h2 className="mt-5 text-2xl font-bold tracking-[-0.03em] text-heading">
                 Technologies I work with
               </h2>
               <TechChips
@@ -92,7 +98,7 @@ export function ServicesPage() {
                 ]}
                 className="mt-4"
               />
-              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600">
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-body">
                 Laravel and CodeIgniter don&rsquo;t appear in my core stack, but
                 I&rsquo;ve used both in client projects and I&rsquo;m
                 comfortable working with existing PHP codebases.

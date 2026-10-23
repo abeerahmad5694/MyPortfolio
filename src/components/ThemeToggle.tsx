@@ -11,9 +11,13 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       onClick={toggle}
       aria-label={`Switch to ${next} theme`}
       title={`Switch to ${next} theme`}
-      className={`inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted transition-colors hover:bg-subtle hover:text-heading ${className}`}
+      className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-heading transition-opacity hover:opacity-65 ${className}`}
     >
-      {theme === "dark" ? <IconSun className="h-[18px] w-[18px]" /> : <IconMoon className="h-[18px] w-[18px]" />}
+      {theme === "dark" ? (
+        <IconSun className="h-[16px] w-[16px]" />
+      ) : (
+        <IconMoon className="h-[16px] w-[16px]" />
+      )}
     </button>
   );
 }

@@ -9,21 +9,17 @@
       content="Full-stack developer specializing in Django, Flutter, ERP and POS systems, REST APIs, and business applications. Based in Rawalpindi, Pakistan."
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#060911" />
+    <meta name="theme-color" content="#f3f4f6" />
     <meta name="color-scheme" content="light dark" />
 
-    <!-- Apply the saved (or system) theme before first paint to avoid a flash -->
+    <!-- Default to light theme; only apply dark if explicitly chosen by the user -->
     <script>
       (function () {
         var stored = null;
         try {
-          stored = localStorage.getItem("theme");
+          stored = localStorage.getItem("abeer-theme-v2");
         } catch (e) {}
-        var dark =
-          stored === "dark" ||
-          (!stored && window.matchMedia("(prefers-color-scheme: dark)").matches);
-        document.documentElement.classList.toggle("dark", dark);
+        document.documentElement.classList.toggle("dark", stored === "dark");
       })();
     </script>
 

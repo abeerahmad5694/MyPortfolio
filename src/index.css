@@ -16,7 +16,7 @@
 /* Class-based dark mode: <html class="dark"> */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Semantic theme tokens — Legency Media Daylight values */
+/* Semantic theme tokens — Legency Media Daylight (DEFAULT) */
 :root {
   --canvas: #ffffff;
   --subtle: #f3f4f6;
@@ -33,26 +33,34 @@
   --accent-text-hover: #0012b3;
   --accent-soft: rgba(0, 26, 255, 0.06);
   --chip: #f4f4f5;
+  --dark-card: #050505;
+  --dark-card-border: rgba(255, 255, 255, 0.12);
+  --pill-shadow: 0 2px 10px rgba(9, 13, 22, 0.04);
+  --card-shadow: 0 1px 3px rgba(9, 13, 22, 0.04);
   color-scheme: light;
 }
 
-/* Semantic theme tokens — Dark mode */
+/* Semantic theme tokens — Flat Matte Studio Dark (Zero Gradients) */
 .dark {
-  --canvas: #090a0f;
-  --subtle: #11131a;
-  --surface: #141720;
-  --surface-elevated: #191d28;
-  --line: #27272a;
-  --line-strong: #52525b;
-  --heading: #fafafa;
-  --body: #a1a1aa;
-  --muted: #71717a;
+  --canvas: #0b0c10;
+  --subtle: #111319;
+  --surface: #171a22;
+  --surface-elevated: #1d212b;
+  --line: #252934;
+  --line-strong: #3e4556;
+  --heading: #f4f4f6;
+  --body: #b0b5c3;
+  --muted: #7c8294;
   --accent: #001aff;
-  --accent-hover: #253bff;
-  --accent-text: #4d6bff;
-  --accent-text-hover: #7a90ff;
-  --accent-soft: rgba(0, 26, 255, 0.16);
-  --chip: #18181b;
+  --accent-hover: #243bff;
+  --accent-text: #5c78ff;
+  --accent-text-hover: #8096ff;
+  --accent-soft: rgba(77, 107, 255, 0.14);
+  --chip: #1e222d;
+  --dark-card: #06070a;
+  --dark-card-border: #252934;
+  --pill-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --card-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
   color-scheme: dark;
 }
 
@@ -93,12 +101,12 @@
   }
 
   ::selection {
-    background: rgba(0, 26, 255, 0.16);
+    background: rgba(0, 26, 255, 0.18);
     color: var(--heading);
   }
 
   :where(a, button, summary, [role="button"]):focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--accent-text);
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -129,7 +137,7 @@
 @layer components {
   /* Legency-style crisp section eyebrow */
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-xs font-medium text-muted;
+    @apply inline-flex items-center gap-2 text-xs font-medium text-accent-text;
   }
 
   /* Framed image treatment used across the site */
@@ -143,12 +151,13 @@
 
   /* Architectural B2B card surface */
   .card {
-    @apply rounded-lg border border-line bg-surface;
+    @apply rounded-2xl border border-line bg-surface;
+    box-shadow: var(--card-shadow);
   }
 
   /* Swiss architectural hairline grid container */
   .swiss-grid {
-    @apply grid gap-px overflow-hidden rounded-lg border border-line bg-line;
+    @apply grid gap-px overflow-hidden rounded-2xl border border-line bg-line;
   }
 
   .swiss-cell {

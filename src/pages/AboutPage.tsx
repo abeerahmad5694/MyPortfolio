@@ -42,8 +42,8 @@ export function AboutPage() {
     <>
       {/* Intro — Clean Legency-style typographic header + At a glance */}
       <section
-        className="relative overflow-hidden border-b border-line pt-24 pb-14 sm:pt-36 sm:pb-20"
-        style={{ backgroundColor: "#f3f4f6" }}
+        className="relative overflow-hidden border-b border-line bg-subtle pt-24 pb-14 sm:pt-36 sm:pb-20"
+        style={{ backgroundColor: "var(--subtle)" }}
       >
         <DitherMatrix className="pointer-events-none absolute bottom-0 right-0 h-24 w-[320px] sm:h-32 sm:w-[460px]" />
 

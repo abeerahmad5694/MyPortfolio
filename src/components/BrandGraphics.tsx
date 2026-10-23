@@ -10,30 +10,44 @@ export function BrandMark({ className = "h-6 w-6" }: { className?: string }) {
       className={className}
     >
       {/* Top & bottom outer pixels */}
-      <rect x="12" y="1" width="4" height="4" fill="#001AFF" />
-      <rect x="12" y="23" width="4" height="4" fill="#001AFF" />
+      <rect x="12" y="1" width="4" height="4" fill="var(--accent-text)" />
+      <rect x="12" y="23" width="4" height="4" fill="var(--accent-text)" />
       {/* Left & right outer pixels */}
-      <rect x="1" y="12" width="4" height="4" fill="#001AFF" />
-      <rect x="23" y="12" width="4" height="4" fill="#001AFF" />
+      <rect x="1" y="12" width="4" height="4" fill="var(--accent-text)" />
+      <rect x="23" y="12" width="4" height="4" fill="var(--accent-text)" />
       {/* Inner diagonal ring */}
-      <rect x="7" y="5" width="4" height="4" fill="#001AFF" />
-      <rect x="17" y="5" width="4" height="4" fill="#001AFF" />
-      <rect x="5" y="10" width="4" height="4" fill="#001AFF" />
-      <rect x="19" y="10" width="4" height="4" fill="#001AFF" />
-      <rect x="5" y="14" width="4" height="4" fill="#001AFF" />
-      <rect x="19" y="14" width="4" height="4" fill="#001AFF" />
-      <rect x="7" y="19" width="4" height="4" fill="#001AFF" />
-      <rect x="17" y="19" width="4" height="4" fill="#001AFF" />
+      <rect x="7" y="5" width="4" height="4" fill="var(--accent-text)" />
+      <rect x="17" y="5" width="4" height="4" fill="var(--accent-text)" />
+      <rect x="5" y="10" width="4" height="4" fill="var(--accent-text)" />
+      <rect x="19" y="10" width="4" height="4" fill="var(--accent-text)" />
+      <rect x="5" y="14" width="4" height="4" fill="var(--accent-text)" />
+      <rect x="19" y="14" width="4" height="4" fill="var(--accent-text)" />
+      <rect x="7" y="19" width="4" height="4" fill="var(--accent-text)" />
+      <rect x="17" y="19" width="4" height="4" fill="var(--accent-text)" />
       {/* Core accents */}
-      <rect x="11" y="8" width="3" height="3" fill="#001AFF" opacity="0.55" />
-      <rect x="14" y="17" width="3" height="3" fill="#001AFF" opacity="0.55" />
+      <rect
+        x="11"
+        y="8"
+        width="3"
+        height="3"
+        fill="var(--accent-text)"
+        opacity="0.55"
+      />
+      <rect
+        x="14"
+        y="17"
+        width="3"
+        height="3"
+        fill="var(--accent-text)"
+        opacity="0.55"
+      />
     </svg>
   );
 }
 
 /**
  * Legency-style credential badge:
- * White rounded pill with blue geometric mark, dark title, and solid black chip on the right.
+ * White rounded pill in Light mode, matte dark surface pill in Dark mode.
  */
 export function PartnerBadge({
   label = "Full-Stack Partner",
@@ -44,9 +58,9 @@ export function PartnerBadge({
 }) {
   return (
     <div
-      className="inline-flex items-center gap-2.5 rounded-lg bg-white px-3 py-1.5"
+      className="inline-flex items-center gap-2.5 rounded-lg border border-transparent px-3 py-1.5 dark:border-line"
       style={{
-        backgroundColor: "#ffffff",
+        backgroundColor: "var(--surface)",
         boxShadow: "0 1px 2px rgba(9, 13, 22, 0.05)",
       }}
     >
@@ -59,18 +73,17 @@ export function PartnerBadge({
       >
         <path
           d="M0 1h4.2l2.1 7.2L8.8 1h3.6l2.1 7.2L16.6 1H20l-3.8 12h-3.7L10.5 6l-2 7H4.8L0 1Z"
-          fill="#001AFF"
+          fill="var(--accent-text)"
         />
       </svg>
       <span
         className="text-[13px] font-semibold tracking-[-0.01em]"
-        style={{ color: "#090d16" }}
+        style={{ color: "var(--heading)" }}
       >
         {label}
       </span>
       <span
-        className="rounded px-2 py-0.5 text-[11px] font-semibold tracking-[-0.01em]"
-        style={{ backgroundColor: "#090d16", color: "#ffffff" }}
+        className="rounded px-2 py-0.5 text-[11px] font-semibold tracking-[-0.01em] bg-[#090d16] text-white dark:bg-[#0b0c10] dark:border dark:border-line"
       >
         {tag}
       </span>
