@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Container } from "../components/Container";
 import { Reveal } from "../components/Reveal";
-import { PageHeader } from "../components/PageHeader";
 import { ProjectGrid } from "../components/ProjectGrid";
 import { CtaSection } from "../components/CtaSection";
 import { usePageMeta } from "../hooks/usePageMeta";
@@ -41,17 +40,36 @@ export function ProjectsPage() {
 
   return (
     <>
-      <PageHeader
-        eyebrow="Case studies"
-        title="Selected client work"
-        highlight="& systems."
-        description="Systems and apps I’ve built — what each one does, how I approached it, and where it stands today."
-      />
+      <section
+        className="pt-32 pb-20 sm:pt-36 sm:pb-28"
+        style={{ backgroundColor: "#f3f4f6", color: "#090d16" }}
+      >
+        <Container>
+          <Reveal>
+            <div className="mx-auto max-w-[780px] text-center">
+              <p
+                className="text-[13px] font-medium"
+                style={{ color: "#001aff" }}
+              >
+                Case Studies
+              </p>
+              <h1
+                className="mt-3 text-[clamp(2.35rem,4.6vw,4.1rem)] font-bold leading-[1.05] tracking-[-0.04em]"
+                style={{ color: "#090d16" }}
+              >
+                Selected client work
+                <br />
+                and production systems
+              </h1>
+              <p className="mx-auto mt-5 max-w-[650px] text-[15.5px] leading-[1.6] text-zinc-600 sm:text-[16.5px]">
+                Systems and apps I&rsquo;ve built — what each one does, how I
+                approached it, and where it stands today.
+              </p>
+            </div>
+          </Reveal>
 
-      <section>
-        <Container className="py-12 sm:py-16">
-          {/* Legency-inspired filter bar + count */}
-          <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5">
+          {/* Filter bar + count */}
+          <div className="mt-12 mb-10 flex flex-wrap items-center justify-between gap-4 border-b border-zinc-200 pb-5">
             <div
               role="tablist"
               aria-label="Filter projects by category"
@@ -67,10 +85,10 @@ export function ProjectsPage() {
                     aria-selected={active}
                     onClick={() => setActiveFilter(filter.key)}
                     className={cx(
-                      "rounded-md px-3.5 py-2 text-xs font-semibold transition-colors",
+                      "rounded-full px-4 py-2 text-xs font-medium transition-colors",
                       active
-                        ? "bg-accent text-white shadow-xs"
-                        : "border border-line bg-surface text-body hover:border-line-strong hover:text-heading",
+                        ? "bg-[#001aff] text-white"
+                        : "border border-zinc-300 bg-white text-[#090d16] hover:border-zinc-400",
                     )}
                   >
                     {filter.label}
@@ -79,7 +97,7 @@ export function ProjectsPage() {
               })}
             </div>
 
-            <p className="font-mono text-xs font-medium text-muted">
+            <p className="font-mono text-xs font-medium text-zinc-500">
               {filteredProjects.length}{" "}
               {filteredProjects.length === 1 ? "project" : "projects"}
             </p>
@@ -88,12 +106,15 @@ export function ProjectsPage() {
           <ProjectGrid projects={filteredProjects} />
 
           <Reveal delay={100}>
-            <div className="mt-10 rounded-lg border border-line bg-subtle p-5 sm:p-6">
-              <p className="max-w-3xl text-[13px] leading-relaxed text-muted">
-                <span className="font-semibold text-heading">Confidentiality note:</span>{" "}
-                These projects were built for clients, so the software itself isn&rsquo;t
-                public — the case studies above describe what was built and how.
-                Screenshots show representative interfaces, not the client deployments.
+            <div className="mt-12 rounded-2xl bg-white p-6 sm:p-8">
+              <p className="max-w-3xl text-[13.5px] leading-relaxed text-zinc-600">
+                <span className="font-semibold text-[#090d16]">
+                  Confidentiality note:
+                </span>{" "}
+                These projects were built for clients, so the software itself
+                isn&rsquo;t public — the case studies above describe what was
+                built and how. Screenshots show representative interfaces, not
+                the client deployments.
               </p>
             </div>
           </Reveal>

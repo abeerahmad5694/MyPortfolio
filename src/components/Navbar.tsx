@@ -24,27 +24,24 @@ export function Navbar() {
   }, [open]);
 
   return (
-    <header
-      className="relative z-40 pt-5 pb-2 sm:pt-7"
-      style={{ backgroundColor: "#f3f4f6" }}
-    >
+    <header className="pointer-events-none sticky top-0 z-50 -mb-[88px] pt-5 pb-3 sm:-mb-[96px] sm:pt-7">
       <Container>
         <div className="flex items-center justify-between gap-4">
           {/* Left Floating White Bar: [BrandMark + Name] ... [= Menu] */}
           <div
-            className="flex flex-1 items-center justify-between rounded-xl bg-white px-4 py-3 sm:max-w-[540px] sm:px-5 sm:py-3.5"
+            className="pointer-events-auto flex flex-1 items-center justify-between rounded-xl bg-white px-5 py-3.5 sm:max-w-[580px] sm:px-6 sm:py-4"
             style={{
               backgroundColor: "#ffffff",
-              boxShadow: "0 1px 2px rgba(9, 13, 22, 0.04)",
+              boxShadow: "0 2px 10px rgba(9, 13, 22, 0.04)",
             }}
           >
             <Link
               to="/"
-              className="group inline-flex items-center gap-2.5 text-[18px] font-bold tracking-[-0.03em] sm:text-[20px]"
+              className="group inline-flex items-center gap-3 text-[19px] font-bold tracking-[-0.035em] sm:text-[22px]"
               style={{ color: "#090d16" }}
               aria-label={`${site.name} — home`}
             >
-              <BrandMark className="h-6 w-6 shrink-0 transition-transform duration-200 group-hover:scale-105" />
+              <BrandMark className="h-7 w-7 shrink-0 transition-transform duration-200 group-hover:scale-105" />
               <span>{site.name}</span>
             </Link>
 
@@ -54,7 +51,7 @@ export function Navbar() {
               aria-expanded={open}
               aria-controls="site-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="inline-flex items-center gap-2.5 rounded-md px-2 py-1 text-[14px] font-normal transition-opacity hover:opacity-70"
+              className="inline-flex items-center gap-3 rounded-md px-2 py-1 text-[14.5px] font-normal transition-opacity hover:opacity-70"
               style={{ color: "#090d16" }}
             >
               <span
@@ -83,19 +80,19 @@ export function Navbar() {
           {/* Right Floating Split Button: [ Get in touch ][ ↘ ] */}
           <Link
             to="/contact"
-            className="group inline-flex shrink-0 items-stretch overflow-hidden rounded-xl transition-transform duration-150 hover:-translate-y-0.5"
+            className="pointer-events-auto group inline-flex shrink-0 items-stretch overflow-hidden rounded-xl transition-transform duration-150 hover:-translate-y-0.5"
             style={{
-              boxShadow: "0 1px 2px rgba(9, 13, 22, 0.06)",
+              boxShadow: "0 2px 10px rgba(9, 13, 22, 0.06)",
             }}
           >
             <span
-              className="inline-flex items-center px-4 py-3 text-[13.5px] font-medium sm:px-5 sm:py-3.5 sm:text-[14px]"
+              className="inline-flex items-center px-5 py-3.5 text-[14px] font-medium sm:px-7 sm:py-4 sm:text-[15px]"
               style={{ backgroundColor: "#001aff", color: "#ffffff" }}
             >
               Get in touch
             </span>
             <span
-              className="inline-flex items-center justify-center px-3.5 sm:px-4"
+              className="inline-flex items-center justify-center px-4 sm:px-4.5"
               style={{ backgroundColor: "#ffffff", color: "#090d16" }}
               aria-hidden="true"
             >
@@ -120,10 +117,10 @@ export function Navbar() {
         {open ? (
           <div
             id="site-menu"
-            className="mt-3 rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8"
+            className="pointer-events-auto mt-3 rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8"
             style={{
               backgroundColor: "#ffffff",
-              boxShadow: "0 24px 48px -12px rgba(9, 13, 22, 0.14)",
+              boxShadow: "0 24px 48px -12px rgba(9, 13, 22, 0.16)",
             }}
           >
             <div className="grid gap-8 md:grid-cols-3 lg:gap-12">

@@ -28,8 +28,11 @@ export function ProjectDetailPage() {
   return (
     <>
       {/* Case study header */}
-      <section className="border-b border-line bg-subtle/60">
-        <Container className="py-10 sm:py-14">
+      <section
+        className="border-b border-zinc-200 pt-28 pb-14 sm:pt-36 sm:pb-16"
+        style={{ backgroundColor: "#f3f4f6" }}
+      >
+        <Container>
           <Reveal>
             <Link
               to="/projects"

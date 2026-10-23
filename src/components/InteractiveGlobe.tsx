@@ -14,7 +14,7 @@ const BAYER_8X8 = [
 
 /**
  * Legency Media's signature Bayer-dithered electric-blue (#001AFF) ringed planet graphic.
- * Renders a 3D sphere + tilted planetary ring quantized in real time onto a crisp square pixel grid.
+ * Full-bleed right-side hero canvas with a bottom-left to top-right (/) planetary ring.
  */
 export function InteractiveGlobe({ className = "" }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -38,8 +38,8 @@ export function InteractiveGlobe({ className = "" }: { className?: string }) {
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      width = Math.max(rect.width, 480);
-      height = Math.max(rect.height, 480);
+      width = Math.max(rect.width, 600);
+      height = Math.max(rect.height, 560);
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
@@ -60,29 +60,30 @@ export function InteractiveGlobe({ className = "" }: { className?: string }) {
 
     const renderFrame = () => {
       animId = requestAnimationFrame(renderFrame);
-      phase += 0.012;
-      smoothX += (pointerX - smoothX) * 0.05;
-      smoothY += (pointerY - smoothY) * 0.05;
+      phase += 0.008;
+      smoothX += (pointerX - smoothX) * 0.04;
+      smoothY += (pointerY - smoothY) * 0.04;
 
       ctx.clearRect(0, 0, width, height);
 
-      // Pixel grid step size matching Legency's crisp square dither matrix
+      // Crisp square pixel grid matching image-2.png
       const step = 6;
       const cols = Math.ceil(width / step);
       const rows = Math.ceil(height / step);
 
-      // Sphere center placed in upper-right (slightly clipped at top, matching screenshot)
-      const cx = width * 0.62 + smoothX * 10;
-      const cy = height * 0.39 + smoothY * 8;
-      const radius = Math.min(width, height) * 0.45;
+      // Sphere centered on the right so top & bottom bleed naturally off the hero edges
+      const radius = height * 0.55;
+      const cx = width * 0.67 + smoothX * 8;
+      const cy = height * 0.45 + smoothY * 6;
 
-      // Ring tilt angle (-19.5 degrees from bottom-left to top-right)
-      const ringAngle = -0.34 + smoothX * 0.025;
+      // Positive angle (+0.37 rad = +21 deg) sweeps ring from BOTTOM-LEFT (/) to TOP-RIGHT
+      const ringAngle = 0.37 + smoothX * 0.02;
       const cosA = Math.cos(ringAngle);
       const sinA = Math.sin(ringAngle);
-      // Ring center slightly offset to sweep lower across the planet
-      const rcx = cx - radius * 0.04;
-      const rcy = cy + radius * 0.22;
+
+      // Ring center slightly below sphere center, matching image-2.png
+      const rcx = cx - radius * 0.06;
+      const rcy = cy + radius * 0.14;
 
       for (let gy = 0; gy < rows; gy++) {
         const y = gy * step + step * 0.5;
@@ -98,83 +99,114 @@ export function InteractiveGlobe({ className = "" }: { className?: string }) {
           const r2 = dx * dx + dy * dy;
           const insideSphere = r2 <= 1.0;
 
-          // 2. Tilted Planetary Ring coordinates
-          const rx = ((x - rcx) * cosA - (y - rcy) * sinA) / radius;
-          const ry = ((x - rcx) * sinA + (y - rcy) * cosA) / radius;
-          // Foreshortened ellipse for the ring (aspect ~ 0.22)
-          const ringAspect = 0.21;
-          const ringDist = Math.sqrt(rx * rx + (ry / ringAspect) * (ry / ringAspect));
+          // 2. Tilted Planetary Ring coordinates (sweeping bottom-left `/` to top-right)
+          const dxRing = x - rcx;
+          const dyRing = y - rcy;
+          const rx = (dxRing * cosA - dyRing * sinA) / radius;
+          const ry = (dxRing * sinA + dyRing * cosA) / radius;
 
-          // Front half of the ring (ry > -0.02) vs back half occluded by sphere
+          // Foreshortened ellipse for the Saturn-like ring
+          const ringAspect = 0.22;
+          const ringDist = Math.sqrt(
+            rx * rx + (ry / ringAspect) * (ry / ringAspect),
+          );
+
+          // Back half of ring (ry < 0) is occluded behind the sphere
           const isBackRing = ry < 0 && insideSphere;
 
           let ringIntensity = 0;
-          if (!isBackRing && ringDist > 0.92 && ringDist < 2.15) {
-            // Primary dense inner band
-            const band1 = Math.exp(-Math.pow((ringDist - 1.24) / 0.13, 2)) * 0.92;
-            // Secondary outer dithered band
-            const band2 = Math.exp(-Math.pow((ringDist - 1.56) / 0.24, 2)) * 0.48;
-            // Subtle orbital shimmer along the ring
-            const ringWave =
-              0.88 + 0.12 * Math.sin(rx * 5.0 - phase * 1.4 + ry * 8.0);
-            // Fade smoothly at extreme left/right tips
-            const tipFade = Math.max(0, 1 - Math.pow(Math.abs(rx) / 2.08, 3));
-            ringIntensity = (band1 + band2) * ringWave * tipFade;
+          let inRingGap = false;
+
+          if (!isBackRing && ringDist > 0.88 && ringDist < 1.92) {
+            // Subtle light separation band just inside the front ring across the sphere
+            if (insideSphere && ry > 0 && ringDist > 0.96 && ringDist < 1.14) {
+              inRingGap = true;
+            }
+
+            // Sharp electric-blue lower/outer spine of the ring (matching image-2.png)
+            const mainBand =
+              Math.exp(-Math.pow((ringDist - 1.32) / 0.12, 2)) * 0.95;
+            // Secondary softer band
+            const outerBand =
+              Math.exp(-Math.pow((ringDist - 1.56) / 0.22, 2)) * 0.45;
+            // Subtle orbital shimmer
+            const shimmer =
+              0.9 + 0.1 * Math.sin(rx * 4.5 - phase * 1.2 + ry * 6.0);
+            // Smooth taper at the far left tip
+            const tipFade = Math.max(0, 1 - Math.pow(Math.abs(rx) / 1.88, 3.2));
+
+            ringIntensity = (mainBand + outerBand) * shimmer * tipFade;
           }
 
           let sphereIntensity = 0;
-          let onLitSphere = false;
 
           if (insideSphere) {
             const dz = Math.sqrt(Math.max(0, 1.0 - r2));
-            onLitSphere = true;
 
-            // Strong crescent shadow on the LEFT side of the sphere (dx < 0)
-            // matching Legency's left-heavy electric blue dithered crescent
-            const crescent = Math.pow(Math.max(0, -dx * 0.78 + 0.28 - dy * 0.08), 1.45) * 1.28;
+            // Strong left-crescent shadow (dx < 0) matching image-2.png
+            const leftCrescent =
+              Math.pow(Math.max(0, -dx * 0.82 + 0.22 - dy * 0.06), 1.5) * 1.35;
 
-            // Rim accent along the left edge
+            // Crisp electric-blue rim along the left silhouette of the sphere
             const leftRim =
-              dx < 0 ? Math.pow(1.0 - dz, 1.7) * Math.max(0, -dx) * 0.95 : 0;
+              dx < -0.15
+                ? Math.pow(1.0 - dz, 1.55) * Math.max(0, -dx) * 1.05
+                : 0;
 
-            // Rotating planetary surface texture bands
-            const lon = Math.atan2(dx, dz) + phase * 0.35;
+            // Subtle rotating surface patches
+            const lon = Math.atan2(dx, dz) + phase * 0.3;
             const lat = Math.asin(Math.max(-1, Math.min(1, dy)));
-            const surfaceTex =
-              Math.sin(lon * 3.0 + Math.sin(lat * 4.0)) *
-              Math.cos(lat * 3.5) *
-              0.14;
+            const patch =
+              Math.sin(lon * 2.8 + Math.cos(lat * 3.2)) *
+              Math.cos(lat * 3.0) *
+              0.12;
 
             sphereIntensity = Math.max(
               0.08,
-              Math.min(1.0, crescent + leftRim + surfaceTex * Math.max(0.2, -dx + 0.4)),
+              Math.min(
+                1.0,
+                leftCrescent +
+                  leftRim +
+                  patch * Math.max(0.15, -dx + 0.35),
+              ),
             );
+
+            if (inRingGap) {
+              sphereIntensity *= 0.28;
+            }
           }
 
-          // Combine sphere and front ring intensity
           const total = Math.max(sphereIntensity, ringIntensity);
 
-          // Determine pixel color & square size via ordered Bayer dithering
-          if (total > 0.68 && total - threshold * 0.52 > 0.42) {
-            // Level 4: Deep / Vivid Electric Blue (#001AFF) full pixel square
-            ctx.fillStyle =
-              total > 0.88 && (gx + gy) % 3 === 0 ? "#0011b8" : "#001aff";
-            ctx.fillRect(gx * step, gy * step, step - 1, step - 1);
-          } else if (total > 0.36 && total - threshold * 0.58 > 0.16) {
-            // Level 3: Medium Cobalt Blue pixel square
-            ctx.fillStyle = total > 0.52 ? "#1a33ff" : "#475dff";
-            ctx.fillRect(gx * step + 0.5, gy * step + 0.5, step - 1.5, step - 1.5);
+          // Ordered Bayer dithering into crisp axis-aligned square pixels
+          if (total > 0.66 && total - threshold * 0.52 > 0.4) {
+            // Vivid Electric Blue (#001AFF) square pixel
+            ctx.fillStyle = "#001aff";
+            ctx.fillRect(gx * step, gy * step, step - 1.2, step - 1.2);
+          } else if (total > 0.35 && total - threshold * 0.56 > 0.15) {
+            // Medium Royal/Cobalt Blue square pixel
+            ctx.fillStyle = total > 0.5 ? "#1f38ff" : "#4f66ff";
+            ctx.fillRect(
+              gx * step + 0.5,
+              gy * step + 0.5,
+              step - 1.8,
+              step - 1.8,
+            );
           } else if (total > 0.16 && total > threshold * 0.72) {
-            // Level 2: Soft Periwinkle dither square
-            ctx.fillStyle = "#8a99ff";
-            ctx.fillRect(gx * step + 1, gy * step + 1, step - 2.5, step - 2.5);
+            // Soft Periwinkle halftone pixel
+            ctx.fillStyle = "#8f9eff";
+            ctx.fillRect(gx * step + 1, gy * step + 1, step - 2.6, step - 2.6);
           } else if (
-            onLitSphere ||
-            (!isBackRing && ringDist > 0.88 && ringDist < 2.05 && (gx + gy) % 2 === 0)
+            insideSphere ||
+            (!isBackRing &&
+              ringDist > 0.9 &&
+              ringDist < 1.85 &&
+              (gx + gy) % 2 === 0) ||
+            (x > width * 0.42 && (gx % 2 === 0 && gy % 2 === 0))
           ) {
-            // Level 1: Regular halftone background dot grid on the sunlit right face & ring halo
-            ctx.fillStyle = onLitSphere ? "#bcc5f7" : "#cfd5fa";
-            ctx.fillRect(gx * step + 1.5, gy * step + 1.5, 2.5, 2.5);
+            // Ambient background dot-matrix across the sunlit right side of the globe & hero
+            ctx.fillStyle = insideSphere ? "#bfc7f7" : "#d8dcf5";
+            ctx.fillRect(gx * step + 1.5, gy * step + 1.5, 2, 2);
           }
         }
       }

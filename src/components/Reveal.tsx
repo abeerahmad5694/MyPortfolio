@@ -1,19 +1,21 @@
 import { useEffect, useRef, useState } from "react";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cx } from "../lib/cx";
 
 /**
- * Very subtle scroll reveal: a small fade + 12px rise, triggered once.
+ * Very subtle scroll reveal: a small fade + 8px rise, triggered once.
  * Skipped entirely when the user prefers reduced motion.
  */
 export function Reveal({
   children,
   className,
   delay = 0,
+  style,
 }: {
   children: ReactNode;
   className?: string;
   delay?: number;
+  style?: CSSProperties;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -48,7 +50,7 @@ export function Reveal({
     <div
       ref={ref}
       className={cx("reveal", visible && "is-visible", className)}
-      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+      style={delay ? { ...style, transitionDelay: `${delay}ms` } : style}
     >
       {children}
     </div>
