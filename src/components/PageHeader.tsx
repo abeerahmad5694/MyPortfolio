@@ -18,7 +18,7 @@ export function PageHeader({
 }) {
   return (
     <section
-      className="relative overflow-hidden border-b border-zinc-200 pt-28 pb-14 sm:pt-36 sm:pb-16"
+      className="relative overflow-hidden border-b border-zinc-200 pt-24 pb-12 sm:pt-36 sm:pb-16"
       style={{ backgroundColor: "#f3f4f6", color: "#090d16" }}
     >
       <Container className="relative">

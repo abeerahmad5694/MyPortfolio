@@ -49,7 +49,7 @@ export function AdminPage() {
 
   return (
     <section className="border-t border-line bg-subtle">
-      <Container className="py-14 sm:py-20">
+      <Container className="pt-28 pb-16 sm:pt-36 sm:pb-20">
         {authed ? (
           <div className="mx-auto max-w-3xl space-y-10">
             <div className="flex items-start justify-between gap-4">

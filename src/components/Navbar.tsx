@@ -24,12 +24,12 @@ export function Navbar() {
   }, [open]);
 
   return (
-    <header className="pointer-events-none sticky top-0 z-50 -mb-[88px] pt-5 pb-3 sm:-mb-[96px] sm:pt-7">
+    <header className="pointer-events-none sticky top-0 z-50 -mb-[76px] pt-3.5 pb-2.5 sm:-mb-[96px] sm:pt-7 sm:pb-3">
       <Container>
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-2.5 sm:gap-4">
           {/* Left Floating White Bar: [BrandMark + Name] ... [= Menu] */}
           <div
-            className="pointer-events-auto flex flex-1 items-center justify-between rounded-xl bg-white px-5 py-3.5 sm:max-w-[580px] sm:px-6 sm:py-4"
+            className="pointer-events-auto flex min-w-0 flex-1 items-center justify-between gap-2 rounded-xl bg-white px-3.5 py-2.5 sm:max-w-[580px] sm:px-6 sm:py-4"
             style={{
               backgroundColor: "#ffffff",
               boxShadow: "0 2px 10px rgba(9, 13, 22, 0.04)",
@@ -37,12 +37,12 @@ export function Navbar() {
           >
             <Link
               to="/"
-              className="group inline-flex items-center gap-3 text-[19px] font-bold tracking-[-0.035em] sm:text-[22px]"
+              className="group inline-flex min-w-0 items-center gap-2 text-[16px] font-bold tracking-[-0.035em] sm:gap-3 sm:text-[22px]"
               style={{ color: "#090d16" }}
               aria-label={`${site.name} — home`}
             >
-              <BrandMark className="h-7 w-7 shrink-0 transition-transform duration-200 group-hover:scale-105" />
-              <span>{site.name}</span>
+              <BrandMark className="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-105 sm:h-7 sm:w-7" />
+              <span className="truncate">{site.name}</span>
             </Link>
 
             <button
@@ -51,23 +51,23 @@ export function Navbar() {
               aria-expanded={open}
               aria-controls="site-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="inline-flex items-center gap-3 rounded-md px-2 py-1 text-[14.5px] font-normal transition-opacity hover:opacity-70"
+              className="inline-flex shrink-0 items-center gap-2 rounded-md px-1.5 py-1 text-[13px] font-normal transition-opacity hover:opacity-70 sm:gap-3 sm:px-2 sm:text-[14.5px]"
               style={{ color: "#090d16" }}
             >
               <span
-                className="relative flex h-3.5 w-5 flex-col justify-center gap-[4px]"
+                className="relative flex h-3.5 w-4 flex-col justify-center gap-[4px] sm:w-5"
                 aria-hidden="true"
               >
                 <span
                   className={cx(
-                    "block h-[1.5px] w-5 transition-transform duration-200",
+                    "block h-[1.5px] w-full transition-transform duration-200",
                     open && "translate-y-[2.75px] rotate-45",
                   )}
                   style={{ backgroundColor: "#090d16" }}
                 />
                 <span
                   className={cx(
-                    "block h-[1.5px] w-5 transition-transform duration-200",
+                    "block h-[1.5px] w-full transition-transform duration-200",
                     open && "-translate-y-[2.75px] -rotate-45",
                   )}
                   style={{ backgroundColor: "#090d16" }}
@@ -86,20 +86,20 @@ export function Navbar() {
             }}
           >
             <span
-              className="inline-flex items-center px-5 py-3.5 text-[14px] font-medium sm:px-7 sm:py-4 sm:text-[15px]"
+              className="inline-flex items-center px-3.5 py-2.5 text-[12.5px] font-medium sm:px-7 sm:py-4 sm:text-[15px]"
               style={{ backgroundColor: "#001aff", color: "#ffffff" }}
             >
               Get in touch
             </span>
             <span
-              className="inline-flex items-center justify-center px-4 sm:px-4.5"
+              className="hidden items-center justify-center px-3 min-[390px]:inline-flex sm:px-4.5"
               style={{ backgroundColor: "#ffffff", color: "#090d16" }}
               aria-hidden="true"
             >
               <svg
                 viewBox="0 0 14 14"
                 fill="none"
-                className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:translate-y-0.5"
+                className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:translate-y-0.5 sm:h-3.5 sm:w-3.5"
               >
                 <path
                   d="M3 3L11 11M11 11V4.5M11 11H4.5"
@@ -117,17 +117,17 @@ export function Navbar() {
         {open ? (
           <div
             id="site-menu"
-            className="pointer-events-auto mt-3 rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8"
+            className="pointer-events-auto mt-2.5 max-h-[calc(100dvh-88px)] overflow-y-auto overscroll-contain rounded-2xl border border-zinc-200 bg-white p-5 sm:mt-3 sm:max-h-[calc(100dvh-110px)] sm:p-8"
             style={{
               backgroundColor: "#ffffff",
               boxShadow: "0 24px 48px -12px rgba(9, 13, 22, 0.16)",
             }}
           >
-            <div className="grid gap-8 md:grid-cols-3 lg:gap-12">
+            <div className="grid gap-7 md:grid-cols-3 lg:gap-12">
               {/* Column 1: Pages */}
               <nav aria-label="Main navigation">
                 <p className="text-xs font-medium text-zinc-500">Pages</p>
-                <ul className="mt-3 divide-y divide-zinc-200 border-y border-zinc-200">
+                <ul className="mt-2.5 divide-y divide-zinc-200 border-y border-zinc-200 sm:mt-3">
                   {navLinks.map((link, idx) => (
                     <li key={link.to}>
                       <NavLink
@@ -157,17 +157,17 @@ export function Navbar() {
                 <p className="text-xs font-medium text-zinc-500">
                   Selected projects
                 </p>
-                <ul className="mt-3 divide-y divide-zinc-200 border-y border-zinc-200">
+                <ul className="mt-2.5 divide-y divide-zinc-200 border-y border-zinc-200 sm:mt-3">
                   {projects.map((project) => (
                     <li key={project.slug}>
                       <Link
                         to={`/projects/${project.slug}`}
-                        className="group flex items-center justify-between py-3 text-sm transition-colors"
+                        className="group flex items-center justify-between gap-2 py-3 text-sm transition-colors"
                       >
                         <span className="font-medium text-[#090d16] group-hover:text-[#001aff]">
                           {project.name}
                         </span>
-                        <span className="font-mono text-[11px] text-zinc-500">
+                        <span className="shrink-0 font-mono text-[11px] text-zinc-500">
                           {project.category}
                         </span>
                       </Link>
@@ -178,7 +178,7 @@ export function Navbar() {
 
               {/* Column 3: Direct contact & CV */}
               <div
-                className="flex flex-col justify-between rounded-xl p-6"
+                className="flex flex-col justify-between rounded-xl p-5 sm:p-6"
                 style={{ backgroundColor: "#050505", color: "#ffffff" }}
               >
                 <div>
@@ -192,7 +192,7 @@ export function Navbar() {
                     {site.role} · {site.specialty} · {site.focus}
                   </p>
                   <div className="mt-4 space-y-1.5 text-sm text-zinc-300">
-                    <p>
+                    <p className="break-all">
                       <a
                         href={`mailto:${site.email}`}
                         className="hover:text-white"

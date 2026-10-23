@@ -41,10 +41,13 @@ export function AboutPage() {
   return (
     <>
       {/* Intro — Clean Legency-style typographic header + At a glance */}
-      <section className="relative overflow-hidden border-b border-line bg-canvas">
+      <section
+        className="relative overflow-hidden border-b border-line pt-24 pb-14 sm:pt-36 sm:pb-20"
+        style={{ backgroundColor: "#f3f4f6" }}
+      >
         <DitherMatrix className="pointer-events-none absolute bottom-0 right-0 h-24 w-[320px] sm:h-32 sm:w-[460px]" />
 
-        <Container className="relative py-14 sm:py-20">
+        <Container className="relative">
           <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,7.5fr)_minmax(0,4.5fr)] lg:gap-14">
             <Reveal>
               <PartnerBadge label="About Abeer Ahmad" tag="Rawalpindi, PK" />

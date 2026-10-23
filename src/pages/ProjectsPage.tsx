@@ -41,7 +41,7 @@ export function ProjectsPage() {
   return (
     <>
       <section
-        className="pt-32 pb-20 sm:pt-36 sm:pb-28"
+        className="pt-24 pb-16 sm:pt-36 sm:pb-28"
         style={{ backgroundColor: "#f3f4f6", color: "#090d16" }}
       >
         <Container>

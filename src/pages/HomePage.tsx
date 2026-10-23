@@ -496,13 +496,13 @@ export function HomePage() {
           HERO — Full-Width Widescreen Layout Matching image-2.png
           ===================================================================== */}
       <section
-        className="relative min-h-[680px] overflow-hidden pt-32 pb-24 sm:pt-36 sm:pb-28 lg:min-h-[730px] lg:pt-40 lg:pb-32"
+        className="relative overflow-hidden pt-24 pb-20 sm:min-h-[660px] sm:pt-36 sm:pb-28 lg:min-h-[730px] lg:pt-40 lg:pb-32"
         style={{ backgroundColor: "#f3f4f6", color: "#090d16" }}
       >
         {/* Full-Bleed Right-Side Bayer Pixel-Dithered Electric Blue Ringed Planet */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 right-0 w-full lg:w-[64%]"
+          className="pointer-events-none absolute inset-y-0 right-0 w-full opacity-35 sm:opacity-80 lg:w-[64%] lg:opacity-100"
         >
           <InteractiveGlobe className="h-full w-full" />
         </div>
@@ -514,7 +514,7 @@ export function HomePage() {
 
             {/* Massive Tight-Tracked Editorial Headline with #001AFF Accent + Black Period */}
             <h1
-              className="mt-8 text-[clamp(2.85rem,5.6vw,5.35rem)] font-bold leading-[1.02] tracking-[-0.042em]"
+              className="mt-6 text-[clamp(2.25rem,8vw,5.35rem)] font-bold leading-[1.04] tracking-[-0.042em] sm:mt-8 sm:text-[clamp(2.85rem,5.6vw,5.35rem)] sm:leading-[1.02]"
               style={{ color: "#090d16" }}
             >
               The Full-Stack
@@ -530,7 +530,7 @@ export function HomePage() {
 
             {/* Clean 3-Line Editorial Subheadline */}
             <p
-              className="mt-7 max-w-[560px] text-[17px] leading-[1.56] font-normal sm:text-[18.5px]"
+              className="mt-5 max-w-[560px] text-[15.5px] leading-[1.58] font-normal sm:mt-7 sm:text-[18.5px] sm:leading-[1.56]"
               style={{ color: "#18181b" }}
             >
               I build and maintain custom Django ERP &amp; POS systems alongside
@@ -547,38 +547,38 @@ export function HomePage() {
           on the Left + `Selected clients and software projects` on the Right
           ===================================================================== */}
       <section
-        className="relative z-20 border-b border-zinc-200 pb-20 sm:pb-24"
+        className="relative z-20 border-b border-zinc-200 pb-16 sm:pb-24"
         style={{ backgroundColor: "#ffffff" }}
       >
         <Container>
-          <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-14">
+          <div className="grid items-start gap-9 lg:grid-cols-12 lg:gap-14">
             {/* LEFT: Solid Black (#050505) Track Record Card pulled up into the Hero */}
-            <div className="-mt-16 lg:col-span-4 lg:-mt-20">
+            <div className="-mt-10 sm:-mt-16 lg:col-span-4 lg:-mt-20">
               <div
-                className="rounded-2xl p-8 sm:p-9"
+                className="rounded-2xl p-6 sm:p-9"
                 style={{ backgroundColor: "#050505", color: "#ffffff" }}
               >
                 <p
-                  className="text-[12px] font-normal uppercase tracking-[0.08em]"
+                  className="text-[11px] font-normal uppercase tracking-[0.08em] sm:text-[12px]"
                   style={{ color: "#a1a1aa" }}
                 >
                   Track record
                 </p>
 
-                <div className="mt-4 divide-y divide-white/12">
+                <div className="mt-3 divide-y divide-white/12 sm:mt-4">
                   {trackRecordRows.map((row) => (
                     <div
                       key={row.value}
-                      className="flex items-center justify-between gap-4 py-6 first:pt-4 last:pb-1"
+                      className="flex items-center justify-between gap-3 py-4.5 first:pt-3 last:pb-1 sm:gap-4 sm:py-6 sm:first:pt-4"
                     >
                       <span
-                        className="shrink-0 text-[28px] font-bold tracking-[-0.035em] sm:text-[32px]"
+                        className="shrink-0 text-[22px] font-bold tracking-[-0.035em] sm:text-[32px]"
                         style={{ color: "#ffffff" }}
                       >
                         {row.value}
                       </span>
                       <span
-                        className="max-w-[215px] text-right text-[12.5px] leading-[1.45]"
+                        className="max-w-[185px] text-right text-[11.5px] leading-[1.45] sm:max-w-[215px] sm:text-[12.5px]"
                         style={{ color: "#a1a1aa" }}
                       >
                         {row.description}
@@ -590,25 +590,25 @@ export function HomePage() {
             </div>
 
             {/* RIGHT: Selected Clients and Software Projects (image-2.png wide layout) */}
-            <div className="pt-2 lg:col-span-8 lg:pt-10 lg:pl-4">
+            <div className="pt-1 lg:col-span-8 lg:pt-10 lg:pl-4">
               <p
-                className="text-[13.5px] font-normal"
+                className="text-[13px] font-normal sm:text-[13.5px]"
                 style={{ color: "#27272a" }}
               >
                 Selected clients and software projects
               </p>
 
               {/* Bold Monochrome Geometric Project Wordmarks */}
-              <div className="mt-7 grid grid-cols-2 gap-8 sm:grid-cols-4 lg:gap-10">
+              <div className="mt-5 grid grid-cols-2 gap-4 sm:mt-7 sm:grid-cols-4 sm:gap-8 lg:gap-10">
                 {featuredProjectLogos.map((item) => (
                   <Link
                     key={item.slug}
                     to={`/projects/${item.slug}`}
-                    className="group inline-flex items-center gap-3 py-2 transition-opacity hover:opacity-70"
+                    className="group inline-flex items-center gap-2.5 py-1.5 transition-opacity hover:opacity-70 sm:gap-3 sm:py-2"
                     style={{ color: "#18181b" }}
                   >
                     <ProjectMarkIcon glyph={item.glyph} />
-                    <span className="text-[22px] font-bold tracking-[-0.035em] sm:text-[25px]">
+                    <span className="text-[18px] font-bold tracking-[-0.035em] sm:text-[25px]">
                       {item.name}
                     </span>
                   </Link>
@@ -616,11 +616,11 @@ export function HomePage() {
               </div>
 
               {/* 16-item capability directory below the project marks */}
-              <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-3 border-t border-zinc-200 pt-7 sm:grid-cols-4">
+              <div className="mt-7 grid grid-cols-2 gap-x-4 gap-y-2.5 border-t border-zinc-200 pt-6 sm:mt-10 sm:grid-cols-4 sm:gap-x-8 sm:gap-y-3 sm:pt-7">
                 {systemCapabilities.map((item) => (
                   <div
                     key={item}
-                    className="text-[13px] font-normal text-zinc-600"
+                    className="text-[12px] font-normal text-zinc-600 sm:text-[13px]"
                   >
                     {item}
                   </div>

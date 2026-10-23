@@ -38,8 +38,8 @@ export function InteractiveGlobe({ className = "" }: { className?: string }) {
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      width = Math.max(rect.width, 600);
-      height = Math.max(rect.height, 560);
+      width = Math.max(rect.width, 280);
+      height = Math.max(rect.height, 360);
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
@@ -66,15 +66,19 @@ export function InteractiveGlobe({ className = "" }: { className?: string }) {
 
       ctx.clearRect(0, 0, width, height);
 
+      const isMobile = width < 640;
+
       // Crisp square pixel grid matching image-2.png
-      const step = 6;
+      const step = isMobile ? 5 : 6;
       const cols = Math.ceil(width / step);
       const rows = Math.ceil(height / step);
 
       // Sphere centered on the right so top & bottom bleed naturally off the hero edges
-      const radius = height * 0.55;
-      const cx = width * 0.67 + smoothX * 8;
-      const cy = height * 0.45 + smoothY * 6;
+      const radius = isMobile
+        ? Math.min(width, height) * 0.48
+        : height * 0.55;
+      const cx = (isMobile ? width * 0.82 : width * 0.67) + smoothX * 8;
+      const cy = (isMobile ? height * 0.32 : height * 0.45) + smoothY * 6;
 
       // Positive angle (+0.37 rad = +21 deg) sweeps ring from BOTTOM-LEFT (/) to TOP-RIGHT
       const ringAngle = 0.37 + smoothX * 0.02;
